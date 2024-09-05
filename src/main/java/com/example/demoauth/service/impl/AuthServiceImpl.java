@@ -7,6 +7,7 @@ import com.example.demoauth.repository.UserRepository;
 import com.example.demoauth.security.JwtTokenProvider;
 import com.example.demoauth.service.AuthService;
 import com.example.demoauth.service.RoleService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void register(RegisterDto request) {
         User user = User.builder()
                 .name(request.getName())
@@ -44,7 +46,13 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail())
                 .password(bCryptPasswordEncoder.encode(request.getPassword()))
                 .build();
-        user.addRole(roleService.findByName("ROLE_USER"));
+        String role = request.getRole() != null ? request.getRole() : "ROLE_USER";
+        user.addRole(roleService.findByName(role));
         userRepository.save(user);
+    }
+
+    @Override
+    public Long count() {
+        return userRepository.count();
     }
 }

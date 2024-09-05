@@ -8,4 +8,6 @@ public interface AuthService {
     String login(LoginDto loginDto);
 
     void register(RegisterDto request);
+
+    Long count();
 }

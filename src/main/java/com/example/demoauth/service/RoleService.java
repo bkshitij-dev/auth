@@ -8,4 +8,6 @@ public interface RoleService {
     void create(RoleRequestDto request);
 
     Role findByName(String name);
+
+    Long count();
 }
