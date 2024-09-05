@@ -6,30 +6,40 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_username", columnNames = "username"),
+        @UniqueConstraint(name = "uk_user_email", columnNames = "email")
+})
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "username", nullable = false)
     private String username;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "email", nullable = false)
     private String email;
-    @Column(nullable = false)
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "fk_userrole_user_id")),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "fk_userrole_role_id"))
     )
     private Set<Role> roles;
 
