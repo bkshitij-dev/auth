@@ -1,13 +1,14 @@
 package com.example.demoauth.service;
 
-import com.example.demoauth.dto.LoginDto;
-import com.example.demoauth.dto.RegisterDto;
+import com.example.demoauth.dto.request.LoginRequestDto;
+import com.example.demoauth.dto.request.RegisterRequestDto;
+import com.example.demoauth.dto.response.LoginResponseDto;
 
 public interface AuthService {
 
-    String login(LoginDto loginDto);
+    LoginResponseDto login(LoginRequestDto request);
 
-    void register(RegisterDto request);
+    void register(RegisterRequestDto request);
 
     Long count();
 }

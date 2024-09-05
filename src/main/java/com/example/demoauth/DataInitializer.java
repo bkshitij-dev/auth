@@ -1,7 +1,7 @@
 package com.example.demoauth;
 
-import com.example.demoauth.dto.RegisterDto;
-import com.example.demoauth.dto.RoleRequestDto;
+import com.example.demoauth.dto.request.RegisterRequestDto;
+import com.example.demoauth.dto.request.RoleRequestDto;
 import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.service.AuthService;
 import com.example.demoauth.service.RoleService;
@@ -36,7 +36,7 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     private void createUsers() {
-        RegisterDto admin = RegisterDto.builder()
+        RegisterRequestDto admin = RegisterRequestDto.builder()
                 .name("Admin")
                 .username("admin")
                 .email("admin@app.com")
@@ -45,7 +45,7 @@ public class DataInitializer implements ApplicationRunner {
                 .build();
         authService.register(admin);
 
-        RegisterDto user = RegisterDto.builder()
+        RegisterRequestDto user = RegisterRequestDto.builder()
                 .name("User")
                 .username("user")
                 .email("user@app.com")

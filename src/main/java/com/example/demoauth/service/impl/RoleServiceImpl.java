@@ -1,6 +1,6 @@
 package com.example.demoauth.service.impl;
 
-import com.example.demoauth.dto.RoleRequestDto;
+import com.example.demoauth.dto.request.RoleRequestDto;
 import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.model.Role;
 import com.example.demoauth.repository.RoleRepository;

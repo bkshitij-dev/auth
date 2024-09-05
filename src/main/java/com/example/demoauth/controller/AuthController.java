@@ -1,8 +1,8 @@
 package com.example.demoauth.controller;
 
-import com.example.demoauth.dto.JwtAuthResponse;
-import com.example.demoauth.dto.LoginDto;
-import com.example.demoauth.dto.RegisterDto;
+import com.example.demoauth.dto.response.LoginResponseDto;
+import com.example.demoauth.dto.request.LoginRequestDto;
+import com.example.demoauth.dto.request.RegisterRequestDto;
 import com.example.demoauth.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,17 +20,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
-        String token = authService.login(loginDto);
-
-        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
-        jwtAuthResponse.setAccessToken(token);
-
-        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request){
+        return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto request) {
+    public ResponseEntity<String> register(@RequestBody RegisterRequestDto request) {
         authService.register(request);
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }

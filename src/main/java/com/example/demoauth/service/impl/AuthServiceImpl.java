@@ -1,7 +1,8 @@
 package com.example.demoauth.service.impl;
 
-import com.example.demoauth.dto.LoginDto;
-import com.example.demoauth.dto.RegisterDto;
+import com.example.demoauth.dto.request.LoginRequestDto;
+import com.example.demoauth.dto.request.RegisterRequestDto;
+import com.example.demoauth.dto.response.LoginResponseDto;
 import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.model.User;
 import com.example.demoauth.repository.UserRepository;
@@ -28,27 +29,24 @@ public class AuthServiceImpl implements AuthService {
     private RoleService roleService;
 
     @Override
-    public String login(LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getUsernameOrEmail(),
-                loginDto.getPassword()
-        ));
-
+    public LoginResponseDto login(LoginRequestDto request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsernameOrEmail(),request.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtTokenProvider.generateToken(authentication);
+        String token = jwtTokenProvider.generateToken(authentication);
+        return LoginResponseDto.builder().accessToken(token).build();
     }
 
     @Override
     @Transactional
-    public void register(RegisterDto request) {
+    public void register(RegisterRequestDto request) {
         User user = User.builder()
                 .name(request.getName())
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(bCryptPasswordEncoder.encode(request.getPassword()))
                 .build();
-        RoleType role = request.getRole() != null ? RoleType.valueOf(request.getRole())
-                : RoleType.ROLE_USER;
+        RoleType role = request.getRole() != null ? RoleType.valueOf(request.getRole()) : RoleType.ROLE_USER;
         user.addRole(roleService.findByName(role));
         userRepository.save(user);
     }
