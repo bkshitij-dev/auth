@@ -3,7 +3,7 @@ package com.example.demoauth;
 import com.example.demoauth.dto.request.RegisterRequestDto;
 import com.example.demoauth.dto.request.RoleRequestDto;
 import com.example.demoauth.enums.RoleType;
-import com.example.demoauth.service.AuthService;
+import com.example.demoauth.service.UserService;
 import com.example.demoauth.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -17,14 +17,14 @@ import java.util.List;
 public class DataInitializer implements ApplicationRunner {
 
     private final RoleService roleService;
-    private final AuthService authService;
+    private final UserService userService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if (roleService.count() <= 0) {
             createRoles();
         }
-        if (authService.count() <= 0) {
+        if (userService.count() <= 0) {
             createUsers();
         }
     }
@@ -44,7 +44,7 @@ public class DataInitializer implements ApplicationRunner {
                 .email("admin@app.com")
                 .password("Admin@123")
                 .build();
-        authService.create(admin, List.of(RoleType.ROLE_ADMIN, RoleType.ROLE_USER));
+        userService.create(admin, List.of(RoleType.ROLE_ADMIN, RoleType.ROLE_USER));
 
         RegisterRequestDto user = RegisterRequestDto.builder()
                 .name("User")
@@ -52,6 +52,6 @@ public class DataInitializer implements ApplicationRunner {
                 .email("user@app.com")
                 .password("User@123")
                 .build();
-        authService.create(user, List.of(RoleType.ROLE_USER));
+        userService.create(user, List.of(RoleType.ROLE_USER));
     }
 }

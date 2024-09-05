@@ -7,7 +7,7 @@ import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.model.User;
 import com.example.demoauth.repository.UserRepository;
 import com.example.demoauth.security.JwtTokenProvider;
-import com.example.demoauth.service.AuthService;
+import com.example.demoauth.service.UserService;
 import com.example.demoauth.service.RoleService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public class UserServiceImpl implements UserService {
 
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;

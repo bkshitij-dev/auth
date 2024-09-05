@@ -7,7 +7,7 @@ import com.example.demoauth.enums.RoleType;
 
 import java.util.List;
 
-public interface AuthService {
+public interface UserService {
 
     LoginResponseDto login(LoginRequestDto request);
 
