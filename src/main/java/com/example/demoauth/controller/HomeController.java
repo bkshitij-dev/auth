@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/")
-public class AdminController {
+@RequestMapping("/api/v1/home")
+public class HomeController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
@@ -20,5 +20,10 @@ public class AdminController {
     @GetMapping("/user")
     public ResponseEntity<String> helloUser(){
         return ResponseEntity.ok("Hello User");
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> testUser(){
+        return ResponseEntity.ok("Hello Authenticated");
     }
 }
