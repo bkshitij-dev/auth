@@ -1,6 +1,7 @@
 package com.example.demoauth.service.impl;
 
 import com.example.demoauth.dto.RoleRequestDto;
+import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.model.Role;
 import com.example.demoauth.repository.RoleRepository;
 import com.example.demoauth.service.RoleService;
@@ -15,12 +16,14 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void create(RoleRequestDto request) {
-        Role role = Role.builder().name(request.getName()).build();
+        Role role = Role.builder()
+                .name(RoleType.valueOf(request.getName()))
+                .build();
         roleRepository.save(role);
     }
 
     @Override
-    public Role findByName(String name) {
+    public Role findByName(RoleType name) {
         return roleRepository.findByName(name);
     }
 

@@ -1,5 +1,6 @@
 package com.example.demoauth.model;
 
+import com.example.demoauth.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,5 +16,8 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name")
+    private RoleType name;
 }

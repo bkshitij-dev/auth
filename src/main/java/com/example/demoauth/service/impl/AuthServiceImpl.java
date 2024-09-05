@@ -2,6 +2,7 @@ package com.example.demoauth.service.impl;
 
 import com.example.demoauth.dto.LoginDto;
 import com.example.demoauth.dto.RegisterDto;
+import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.model.User;
 import com.example.demoauth.repository.UserRepository;
 import com.example.demoauth.security.JwtTokenProvider;
@@ -46,7 +47,8 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail())
                 .password(bCryptPasswordEncoder.encode(request.getPassword()))
                 .build();
-        String role = request.getRole() != null ? request.getRole() : "ROLE_USER";
+        RoleType role = request.getRole() != null ? RoleType.valueOf(request.getRole())
+                : RoleType.ROLE_USER;
         user.addRole(roleService.findByName(role));
         userRepository.save(user);
     }

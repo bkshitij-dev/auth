@@ -2,6 +2,7 @@ package com.example.demoauth;
 
 import com.example.demoauth.dto.RegisterDto;
 import com.example.demoauth.dto.RoleRequestDto;
+import com.example.demoauth.enums.RoleType;
 import com.example.demoauth.service.AuthService;
 import com.example.demoauth.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,10 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     private void createRoles() {
-        RoleRequestDto adminRole = RoleRequestDto.builder().name("ROLE_ADMIN").build();
+        RoleRequestDto adminRole = RoleRequestDto.builder().name(RoleType.ROLE_ADMIN.name()).build();
         roleService.create(adminRole);
 
-        RoleRequestDto userRole = RoleRequestDto.builder().name("ROLE_USER").build();
+        RoleRequestDto userRole = RoleRequestDto.builder().name(RoleType.ROLE_USER.name()).build();
         roleService.create(userRole);
     }
 
@@ -40,7 +41,7 @@ public class DataInitializer implements ApplicationRunner {
                 .username("admin")
                 .email("admin@app.com")
                 .password("Admin@123")
-                .role("ROLE_ADMIN")
+                .role(RoleType.ROLE_ADMIN.name())
                 .build();
         authService.register(admin);
 
@@ -49,7 +50,7 @@ public class DataInitializer implements ApplicationRunner {
                 .username("user")
                 .email("user@app.com")
                 .password("User@123")
-                .role("ROLE_USER")
+                .role(RoleType.ROLE_USER.name())
                 .build();
         authService.register(user);
     }
