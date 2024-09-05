@@ -1,8 +1,9 @@
 package com.example.demoauth.controller;
 
-import com.example.demoauth.dto.response.LoginResponseDto;
+import com.example.demoauth.constant.AppConstants;
 import com.example.demoauth.dto.request.LoginRequestDto;
 import com.example.demoauth.dto.request.RegisterRequestDto;
+import com.example.demoauth.dto.response.ApiResponse;
 import com.example.demoauth.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,19 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController {
+public class AuthController extends BaseController {
 
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request){
-        return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> login(@RequestBody LoginRequestDto request){
+        return new ResponseEntity<>(successResponse(AppConstants.SUCCESS_RETRIEVE, userService.login(request)),
+                HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequestDto request) {
+    public ResponseEntity<ApiResponse> register(@RequestBody RegisterRequestDto request) {
         userService.register(request);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        return new ResponseEntity<>(successResponse(AppConstants.SUCCESS_SAVE), HttpStatus.OK);
     }
 
 

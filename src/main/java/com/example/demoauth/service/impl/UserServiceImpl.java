@@ -4,6 +4,7 @@ import com.example.demoauth.dto.request.LoginRequestDto;
 import com.example.demoauth.dto.request.RegisterRequestDto;
 import com.example.demoauth.dto.response.LoginResponseDto;
 import com.example.demoauth.enums.RoleType;
+import com.example.demoauth.exception.AppException;
 import com.example.demoauth.model.User;
 import com.example.demoauth.repository.UserRepository;
 import com.example.demoauth.security.JwtTokenProvider;
@@ -55,6 +56,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void register(RegisterRequestDto request) {
+        boolean existsByUsernameOrEmail = userRepository.existsByUsernameOrEmail(request.getUsername(),
+                request.getEmail());
+        if (existsByUsernameOrEmail) {
+            throw new AppException("User with username/email already exists");
+        }
         create(request, List.of(RoleType.ROLE_USER));
     }
 
