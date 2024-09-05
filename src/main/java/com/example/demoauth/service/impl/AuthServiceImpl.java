@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -37,18 +39,23 @@ public class AuthServiceImpl implements AuthService {
         return LoginResponseDto.builder().accessToken(token).build();
     }
 
-    @Override
     @Transactional
-    public void register(RegisterRequestDto request) {
+    @Override
+    public void create(RegisterRequestDto request, List<RoleType> roles) {
         User user = User.builder()
                 .name(request.getName())
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(bCryptPasswordEncoder.encode(request.getPassword()))
                 .build();
-        RoleType role = request.getRole() != null ? RoleType.valueOf(request.getRole()) : RoleType.ROLE_USER;
-        user.addRole(roleService.findByName(role));
+        roles.forEach(r -> user.addRole(roleService.findByName(r)));
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void register(RegisterRequestDto request) {
+        create(request, List.of(RoleType.ROLE_USER));
     }
 
     @Override

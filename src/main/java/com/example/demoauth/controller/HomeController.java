@@ -22,7 +22,7 @@ public class HomeController {
         return ResponseEntity.ok("Hello User");
     }
 
-    @GetMapping("/test")
+    @GetMapping
     public ResponseEntity<String> testUser(){
         return ResponseEntity.ok("Hello Authenticated");
     }

@@ -10,6 +10,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
@@ -41,17 +43,15 @@ public class DataInitializer implements ApplicationRunner {
                 .username("admin")
                 .email("admin@app.com")
                 .password("Admin@123")
-                .role(RoleType.ROLE_ADMIN.name())
                 .build();
-        authService.register(admin);
+        authService.create(admin, List.of(RoleType.ROLE_ADMIN, RoleType.ROLE_USER));
 
         RegisterRequestDto user = RegisterRequestDto.builder()
                 .name("User")
                 .username("user")
                 .email("user@app.com")
                 .password("User@123")
-                .role(RoleType.ROLE_USER.name())
                 .build();
-        authService.register(user);
+        authService.create(user, List.of(RoleType.ROLE_USER));
     }
 }
