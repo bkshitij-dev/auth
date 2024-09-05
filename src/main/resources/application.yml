@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/login_system
+    username: root
+    password: P@ssw0rd
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+
+app:
+  jwtSecret: daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
+  jwtExpirationMs: 604800000

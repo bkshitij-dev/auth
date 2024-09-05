@@ -2,6 +2,7 @@ package com.example.demoauth.controller;
 
 import com.example.demoauth.dto.JwtAuthResponse;
 import com.example.demoauth.dto.LoginDto;
+import com.example.demoauth.dto.RegisterDto;
 import com.example.demoauth.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,12 @@ public class AuthController {
 
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterDto request) {
+        authService.register(request);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+
 
 }
